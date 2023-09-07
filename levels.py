@@ -19,8 +19,10 @@ class Levels:
     def calc_std_dev_levels(self, df):
         #log price
         df['price'] = df['price'].apply(np.log)
+        #price difference
+        df['price_diff'] = df['price'].diff()        
         #std dev
-        df['std_dev'] = df['price'].rolling(window=100).std()
+        df['std_dev'] = df['price_diff'].rolling(window=100).std()
         #use rolling mean to find 'zones' of volatility
         df['std_dev_ma'] = df['std_dev'].rolling(3000).mean()
         #thresholds between levels
